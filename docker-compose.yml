@@ -1,7 +1,11 @@
 version: '3.3'
 services:
   substrave:
-    build: .
+    container_name: substrate
+    build:
+      context: .
+      args:
+        APTPROXY_ADDR:
     restart: always
     ports:
       - "9944:9944"
