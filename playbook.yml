@@ -1,0 +1,51 @@
+---
+
+- hosts: centos
+  tasks:
+    - name: install pip and docker
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - epel-release
+        - docker
+        - python-setuptools
+        - python-pip
+
+    - name: update pip
+      pip:
+        name: pip
+        state: latest
+
+    - name: installing docker compose
+      pip:
+        state: present
+        name: "{{ item }}"
+      loop: 
+        - docker-compose
+        - docker
+
+    - name: enable docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: create substrate directory
+      file:
+        path: /opt/substrate
+        state: directory
+
+    - name: copy docker-compose file
+      copy:
+        dest: /opt/substrate
+        src: "{{ item }}"
+      loop:
+        - Dockerfile
+        - docker-compose.yml
+
+    - name: start substrave service
+      docker_compose:
+        project_src: /opt/substrate
+        state: present
+
