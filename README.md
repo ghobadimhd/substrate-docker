@@ -1,4 +1,4 @@
-# Substrave.dev Docker
+# Substrate.dev Docker
 This is simple project that tend to dockerize substrate.dev kitchen node.
 
 I have done this as one of my interview test exams.
